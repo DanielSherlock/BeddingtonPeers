@@ -9,10 +9,14 @@ script: /script.js
 _Sorry, I can't be bothered not to code in production, so there isn't anything useful here yet._
 
 ## Play
+
 Enter a nickname to get started:
-// Form
+
+<input type="text" id="nickname">
+<button type="button" id="nickname-go" onclick="alert('Click!')">Go</button>
 
 ## What even is "Beddington Stones"?
+
 Great question,
 it's a two-player abstract board game.
 Its fun,
