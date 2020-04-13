@@ -30,7 +30,7 @@ Start a new game, or join a game a friend has started:
 
 <div id="lobby-start" style="display: none;" markdown="1">
 
-Please give your opponant this code: <code id="player-code">sample</code>
+Please give your opponent this code: <code id="player-code">... establishing connection ...</code>
 
 The game will start as soon as they are ready.
 
