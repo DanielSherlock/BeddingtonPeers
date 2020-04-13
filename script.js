@@ -18,7 +18,7 @@ function lobbyStart() {
   });
   peer.on('connection', function(conn) {
     conn.on('open', startGame(conn));
-  };
+  });
   switchFromTo('lobby-mainmenu', 'lobby-start');
 }
 
