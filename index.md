@@ -47,7 +47,9 @@ Enter the code your opponent has given you:
 
 <div id="game" style="display: none;" ></div>
 
-## What even is "Beddington Stones"?
+## About
+
+### What even is "Beddington Stones"?
 
 Great question,
 it's a two-player abstract board game.
@@ -57,6 +59,14 @@ This page continues that grand tradition
 (while trying to avoid picking a side)
 by using an entirely new name for it.
 Sorry.
+
+### Where can I find the rules for it?
+
+Indeed.
+
+### Who am I?
+
+My name is Daniel.
 
 <script src="https://unpkg.com/peerjs@1.0.0/dist/peerjs.min.js"></script>
 <script src="{{ page.script | relative_url }}"></script>
