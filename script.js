@@ -4,7 +4,9 @@ function switchFromTo(from, to) {
 }
 
 function startGame(conn) {
-  return function() {// pass};
+  return function() {
+    // pass
+  };
 }
 
 function lobbyMainMenu() {
