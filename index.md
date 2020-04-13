@@ -10,10 +10,20 @@ _Sorry, I can't be bothered not to code in production, so there isn't anything u
 
 ## Play
 
+<div id="nickname">
+
 Enter a nickname to get started:
 
-<input type="text" id="nickname">
-<button type="button" id="nickname-go" onclick="alert('Click!')">Go</button>
+<input type="text" id="nickname-text">
+<button type="button" id="nickname-button" onclick="alert('Click!')">Go</button>
+
+</div>
+
+<div id="lobby" style="display: none;">
+
+So, this paragraph should not display.
+
+</div>
 
 ## What even is "Beddington Stones"?
 
