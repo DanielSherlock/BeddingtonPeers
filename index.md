@@ -10,7 +10,7 @@ _Sorry, I can't be bothered not to code in production, so there isn't anything u
 
 ## Play
 
-<div id="nickname">
+<div id="nickname" markdown="1">
 
 Enter a nickname to get started:
 
