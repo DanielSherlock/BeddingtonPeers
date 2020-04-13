@@ -10,20 +10,42 @@ _Sorry, I can't be bothered not to code in production, so there isn't anything u
 
 ## Play
 
-<div id="nickname" markdown="1">
+<div id="nickname" style="display: none;" markdown="1">
 
 Enter a nickname to get started:
 
 <input type="text" id="nickname-text">
-<button type="button" id="nickname-button" onclick="alert('Click!')">Go</button>
+<button type="button" id="nickname-button">Go</button>
 
 </div>
 
-<div id="lobby" style="display: none;">
+<div id="lobby-mainmenu" markdown="1">
 
-So, this paragraph should not display.
+Start a new game, or join a game a friend has started:
+
+<button type="button" id="start-button">Start</button>
+<button type="button" id="join-button">Join</button>
 
 </div>
+
+<div id="lobby-start" style="display: none;" markdown="1">
+
+Please give your opponant this code: <code id="player-code">sample</code>
+
+The game will start as soon as they are ready.
+
+</div>
+
+<div id="lobby-join" style="display: none;" markdown="1">
+
+Enter the code your opponent has given you:
+
+<input type="text" id="player-code-text">
+<button type="button" id="player-code-button">Go</button>
+
+</div>
+
+<div id="game" style="display: none;" ></div>
 
 ## What even is "Beddington Stones"?
 
