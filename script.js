@@ -3,7 +3,7 @@ function switchFromTo(from, to) {
   document.getElementById(to).style.display = 'block';
 }
 
-function startGame(conn, from) {
+function startGame(peer, conn, from) {
   return function() {
     switchFromTo(from, 'game');
   };
@@ -24,7 +24,7 @@ function lobbyStart() {
   peer.on('connection', function(conn) {
     conn.on('open', function() { // this is just for testing
       alert('Connected!');
-      startGame(conn, 'lobby-start');
+      startGame(peer, conn, 'lobby-start');
     });
   });
   switchFromTo('lobby-mainmenu', 'lobby-start');
@@ -42,7 +42,7 @@ function makeConnection(){
   const conn = peer.connect(document.getElementById('player-code-text').value);
   conn.on('open', function() { // this is just for testing
     alert('Connected!');
-    startGame(conn, 'lobby-join');
+    startGame(peer, conn, 'lobby-join');
   });
 }
 
