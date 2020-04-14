@@ -15,11 +15,17 @@ function lobbyMainMenu() {
 
 function lobbyStart() {
   const peer = new Peer();
+  peer.on('error', function(err) {
+    console.log(err);
+  });
   peer.on('open', function(id) {
     document.getElementById('player-code').innerHTML = id;
   });
   peer.on('connection', function(conn) {
-    conn.on('open', startGame(conn, 'lobby-start'));
+    conn.on('open', function() { // this is just for testing
+      alert('Connected!');
+      startGame(conn, 'lobby-start');
+    });
   });
   switchFromTo('lobby-mainmenu', 'lobby-start');
 }
@@ -30,8 +36,14 @@ function lobbyJoin() {
 
 function makeConnection(){
   const peer = new Peer();
+  peer.on('error', function(err) {
+    console.log(err);
+  });
   const conn = peer.connect(document.getElementById('player-code-text').value);
-  conn.on('open', startGame(conn, 'lobby-join'));
+  conn.on('open', function() { // this is just for testing
+    alert('Connected!');
+    startGame(conn, 'lobby-join');
+  });
 }
 
 function main() {
