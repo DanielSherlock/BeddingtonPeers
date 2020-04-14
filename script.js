@@ -5,6 +5,8 @@ function switchFromTo(from, to) {
 
 function startGame(peer, conn, from) {
   return function() {
+    console.log(peer);
+    console.log(conn);
     switchFromTo(from, 'game');
   };
 }
@@ -14,7 +16,7 @@ function lobbyMainMenu() {
 }
 
 function lobbyStart() {
-  const peer = new Peer();
+  var peer = new Peer();
   peer.on('error', function(err) {
     console.log(err);
   });
@@ -35,11 +37,11 @@ function lobbyJoin() {
 }
 
 function makeConnection(){
-  const peer = new Peer();
+  var peer = new Peer();
   peer.on('error', function(err) {
     console.log(err);
   });
-  const conn = peer.connect(document.getElementById('player-code-text').value);
+  var conn = peer.connect(document.getElementById('player-code-text').value);
   conn.on('open', function() { // this is just for testing
     alert('Connected!');
     startGame(peer, conn, 'lobby-join');
