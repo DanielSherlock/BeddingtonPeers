@@ -10,6 +10,7 @@ class InvalidMoveError extends Error {
 const game = {
   setup: () => undefined,
   players: [],
+  get state() {},
   update: () => undefined,
   get over() {},
   get result() {}
@@ -19,6 +20,7 @@ const DUMMY_game = {
   setup: () => null,
   players: [{name: 'First', active: true},
             {name: 'Second', active: false}],
+  get state() {return this},
   update: function(move) {
     switch (move) {
       case 'n':
@@ -42,6 +44,21 @@ const DUMMY_game = {
   result: undefined
 };
 
+// View stuff:
+
+const consoleView = {
+  takeTurn: function(state) {
+    console.log(state);
+    return readline();
+  },
+  declareResult: function(result) {
+    console.log('Game over:');
+    for (let player of result) {
+      console.log("${player} ${player.wins ? 'wins' : 'loses'}.");
+    }
+  }
+};
+
 // Menu functions:
 
 function switchFromTo(from, to) {
@@ -55,7 +72,7 @@ async function localController(game, view) {
   game.setup() // Maybe think of making game a class, and creating a new instance here.
   while (!game.over) {
     for (let player of game.players.filter(player => player.active)) {
-      game.update(await view.takeTurn(player));
+      game.update(await view.takeTurn(player, game.state));
     }
   }
   view.declareResult(game.result);
