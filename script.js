@@ -3,6 +3,26 @@
 const PLAYER1 = 0;
 const PLAYER2 = 1;
 
+const DUMMY_SETUP = {
+  p1o: function(m) {
+    this.p2i(m)
+  },
+  p2o: function(m) {
+    this.p1i(m);
+  },
+  rp1i: function(f) {
+    this.p1i = f;
+  },
+  rp2i: function(f) {
+    this.p2i = f;
+  }
+};
+
+function startDUMMY_game() {
+  startGame(DUMMY_SETUP.rp1i, DUMMY_SETUP.p1o,
+            DUMMY_SETUP.rp2i, DUMMY_SETUP.p2o)
+};
+
 function turn(currentPlayer, send) {
   return function(prevTurn) {
     // Dummy turns:
@@ -15,6 +35,7 @@ function startGame(registerPlayer1_in, player1_out,
                    registerPlayer2_in, player2_out) {
   registerPlayer1_in(turn(PLAYER1, player1_out));
   registerPlayer2_in(turn(PLAYER2, player2_out));
+  turn(PLAYER1, player1_out)({}); // Dummy prevTurn
 }
 
 // Menu functions:
