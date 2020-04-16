@@ -3,25 +3,6 @@
 const PLAYER1 = 0;
 const PLAYER2 = 1;
 
-function startDUMMY_game() {
-  const DUMMY_SETUP = {
-    p1o: function(m) {
-      this.p2i(m)
-    },
-    p2o: function(m) {
-      this.p1i(m);
-    },
-    rp1i: function(f) {
-      this.p1i = f;
-    },
-    rp2i: function(f) {
-      this.p2i = f;
-    }
-  };
-  startGame(DUMMY_SETUP.rp1i, DUMMY_SETUP.p1o,
-            DUMMY_SETUP.rp2i, DUMMY_SETUP.p2o)
-};
-
 function turn(currentPlayer, send) {
   return function(prevTurn) {
     // Dummy turns:
@@ -62,8 +43,23 @@ function switchFromTo(from, to) {
 // Local functions:
 
 function startLocalGame() {
+  const localSetup = {
+    registerPlayer1_in: function(func) {
+      this.player1_in = func;
+    },
+    registerPlayer2_in: function(func) {
+      this.player2_in = func;
+    },
+    player1_out: function(move) {
+      this.player2_in(move)
+    },
+    player2_out: function(move) {
+      this.player1_in(move);
+    }
+  };
+  startGame(localSetup.registerPlayer1_in, localSetup.player1_out,
+            localSetup.registerPlayer2_in, localSetup.player2_out);
   switchFromTo('local-menu', 'game');
-  alert('Alrighty then!');
 }
 
 // Non-working PeerJS functions:
