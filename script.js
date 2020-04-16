@@ -11,7 +11,8 @@ function turn(currentPlayer, send) {
   }
 }
 
-function startGame(registerPlayer1_in, player1_out, registerPlayer2_in, player2_out) {
+function startGame(registerPlayer1_in, player1_out,
+                   registerPlayer2_in, player2_out) {
   registerPlayer1_in(turn(PLAYER1, player1_out));
   registerPlayer2_in(turn(PLAYER2, player2_out));
 }
@@ -46,7 +47,7 @@ function lobbyMainMenu() {
 }
 
 function lobbyStart() {
-  var peer = new Peer();
+  const peer = new Peer();
   peer.on('error', function(err) {
     console.log(err);
   });
@@ -67,11 +68,11 @@ function lobbyJoin() {
 }
 
 function makeConnection(){
-  var peer = new Peer();
+  const peer = new Peer();
   peer.on('error', function(err) {
     console.log(err);
   });
-  var conn = peer.connect(document.getElementById('player-code-text').value);
+  const conn = peer.connect(document.getElementById('player-code-text').value);
   conn.on('open', function() { // this is just for testing
     alert('Connected!');
     startPeerJSGame(peer, conn, 'lobby-join');
