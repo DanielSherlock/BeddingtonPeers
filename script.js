@@ -26,8 +26,23 @@ function startDUMMY_game() {
 function turn(currentPlayer, send) {
   return function(prevTurn) {
     // Dummy turns:
-    alert(currentPlayer + '\'s turn!');
-    send({});
+    switch (prevTurn) {
+      case 'n':
+        let turn = '';
+        while (turn != 'n' && turn != 'w' && turn != 'l') {
+          turn = promt(currentPlayer + '\'s turn! [n/w/l]');
+        }
+        send({});
+        break;
+      case 'l':
+        alert(currentPlayer + ': Well done! You have won.');
+        break;
+      case 'w':
+        alert(currentPlayer + ': You lost! Better luck next time.');
+        break;
+      default:
+        alert('There has been an error. The system did not recieve a valid turn from your opponent.');
+    }
   }
 }
 
@@ -35,7 +50,7 @@ function startGame(registerPlayer1_in, player1_out,
                    registerPlayer2_in, player2_out) {
   registerPlayer1_in(turn(PLAYER1, player1_out));
   registerPlayer2_in(turn(PLAYER2, player2_out));
-  turn(PLAYER1, player1_out)({}); // Dummy prevTurn
+  turn(PLAYER1, player1_out)('n'); // Dummy prevTurn
 }
 
 // Menu functions:
