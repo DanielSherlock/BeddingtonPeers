@@ -3,13 +3,17 @@
 const PLAYER1 = 0;
 const PLAYER2 = 1;
 
-function turn(currentPlayer, sendTo) {
-  // pass
+function turn(currentPlayer, send) {
+  return function(prevTurn) {
+    // Dummy turns:
+    alert(currentPlayer + '\'s turn!');
+    send({});
+  }
 }
 
-function startGame(player1_in, player1_out, player2_in, player2_out) {
-  player1_in(turn(PLAYER1, player1_out));
-  player2_in(turn(PLAYER2, player2_out));
+function startGame(registerPlayer1_in, player1_out, registerPlayer2_in, player2_out) {
+  registerPlayer1_in(turn(PLAYER1, player1_out));
+  registerPlayer2_in(turn(PLAYER2, player2_out));
 }
 
 // Menu functions:
