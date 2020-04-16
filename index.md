@@ -10,6 +10,16 @@ _Sorry, I can't be bothered not to code in production, so there isn't anything u
 
 ## Play
 
+<div id="local-menu" markdown="1">
+
+Play a local game (your opponent shares your computer):
+
+<button type="button" id="local-start-button">Start</button>
+
+</div>
+
+<!-- All the "Play" stuff after this (not including the game itself) are PeerJS non-working code. Kindly ignore. -->
+
 <div id="nickname" style="display: none;" markdown="1">
 
 Enter a nickname to get started:
@@ -19,7 +29,7 @@ Enter a nickname to get started:
 
 </div>
 
-<div id="lobby-mainmenu" markdown="1">
+<div id="lobby-mainmenu" style="display: none;" markdown="1">
 
 Start a new game, or join a game a friend has started:
 
