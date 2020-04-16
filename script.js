@@ -29,7 +29,7 @@ function turn(currentPlayer, send) {
       case 'n':
         let turn = '';
         while (turn != 'n' && turn != 'w' && turn != 'l') {
-          turn = promt(currentPlayer + '\'s turn! [n/w/l]');
+          turn = prompt(currentPlayer + '\'s turn! [n/w/l]');
         }
         send({});
         break;
