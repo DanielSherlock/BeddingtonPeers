@@ -27,10 +27,10 @@ function turn(currentPlayer, send) {
 }
 
 function startGame(registerPlayer1_in, player1_out,
-                   registerPlayer2_in, player2_out) {
+                   registerPlayer2_in, player2_out, begin) {
   registerPlayer1_in(turn(PLAYER1, player1_out));
   registerPlayer2_in(turn(PLAYER2, player2_out));
-  turn(PLAYER1, player1_out)('n'); // Dummy prevTurn
+  begin('n');
 }
 
 // Menu functions:
@@ -55,10 +55,14 @@ function startLocalGame() {
     },
     player2_out: function(move) {
       this.player1_in(move);
+    },
+    begin: function(defaultMove) {
+      this.player1_in(defaultMove);
     }
   };
   startGame(localSetup.registerPlayer1_in, localSetup.player1_out,
-            localSetup.registerPlayer2_in, localSetup.player2_out);
+            localSetup.registerPlayer2_in, localSetup.player2_out,
+            localSetup.begin);
   switchFromTo('local-menu', 'game');
 }
 
