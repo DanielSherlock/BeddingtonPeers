@@ -1,3 +1,19 @@
+// Game functions:
+
+const PLAYER1 = 0;
+const PLAYER2 = 1;
+
+function turn(currentPlayer, sendTo) {
+  // pass
+}
+
+function startGame(player1_in, player1_out, player2_in, player2_out) {
+  player1_in(turn(PLAYER1, player1_out));
+  player2_in(turn(PLAYER2, player2_out));
+}
+
+// Menu functions:
+
 function switchFromTo(from, to) {
   document.getElementById(from).style.display = 'none';
   document.getElementById(to).style.display = 'block';
