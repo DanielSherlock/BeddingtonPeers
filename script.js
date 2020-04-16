@@ -31,7 +31,7 @@ function turn(currentPlayer, send) {
         while (turn != 'n' && turn != 'w' && turn != 'l') {
           turn = prompt(currentPlayer + '\'s turn! [n/w/l]');
         }
-        send({});
+        send(turn);
         break;
       case 'l':
         alert(currentPlayer + ': Well done! You have won.');
