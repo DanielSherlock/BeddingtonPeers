@@ -136,12 +136,14 @@ class CanvasView extends View {
       this.c.moveTo(x + i * cellDimension, y);
       this.c.lineTo(x + i * cellDimension, y + cellHeight * cellDimension);
       this.c.stroke();
+      i++;
     }
     while (j < cellHeight) {
       this.c.beginPath();
       this.c.moveTo(x, y + j * cellDimension);
       this.c.lineTo(x + cellWidth * cellDimension, y + j * cellDimension);
       this.c.stroke();
+      j++;
     }
   }
   takeTurn(player, state) {}
