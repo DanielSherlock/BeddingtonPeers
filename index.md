@@ -55,7 +55,11 @@ Enter the code your opponent has given you:
 
 </div>
 
-<div id="game" style="display: none;" ></div>
+<div id="game" style="display: none;" >
+
+<canvas id="game-canvas"></canvas>
+
+</div>
 
 ## About
 
