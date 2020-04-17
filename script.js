@@ -53,7 +53,7 @@ const promptView = {
   declareResult: function(result) {
     let description = 'Game over:';
     for (let player of result) {
-      description += "\n${player} ${player.wins ? 'wins' : 'loses'}.";
+      description += `\n${player} ${player.wins ? 'wins' : 'loses'}.`;
     }
     alert(description);
   }
