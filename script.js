@@ -1,37 +1,63 @@
-// Game functions:
+// Game stuff:
 
-const PLAYER1 = 0;
-const PLAYER2 = 1;
-
-function turn(currentPlayer, send) {
-  return function(prevTurn) {
-    // Dummy turns:
-    switch (prevTurn) {
-      case 'n':
-        let turn = '';
-        while (turn != 'n' && turn != 'w' && turn != 'l') {
-          turn = prompt(currentPlayer + '\'s turn! [n/w/l]');
-        }
-        send(turn);
-        break;
-      case 'l':
-        alert(currentPlayer + ': Well done! You have won.');
-        break;
-      case 'w':
-        alert(currentPlayer + ': You lost! Better luck next time.');
-        break;
-      default:
-        alert('There has been an error. The system did not recieve a valid turn from your opponent.');
-    }
+class InvalidMoveError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = 'InvalidMoveError';
   }
 }
 
-function startGame(registerPlayer1_in, player1_out,
-                   registerPlayer2_in, player2_out, begin) {
-  registerPlayer1_in(turn(PLAYER1, player1_out));
-  registerPlayer2_in(turn(PLAYER2, player2_out));
-  begin('n');
-}
+const game = {
+  setup: () => undefined,
+  players: [],
+  get state() {},
+  update: () => undefined,
+  get over() {},
+  get result() {}
+};
+
+const DUMMY_game = {
+  setup: () => null,
+  players: [{name: 'First', active: true},
+            {name: 'Second', active: false}],
+  get state() {return this},
+  update: function(move) {
+    switch (move) {
+      case 'n':
+        for (let player of this.players) {
+          player.active = !player.active;
+        }
+        break;
+      case 'w':
+        this.over = true;
+        this.result = this.players.map(player => ({name: player.name, wins: player.active}));
+        break;
+      case 'l':
+        this.over = true;
+        this.result = this.players.map(player => ({name: player.name, wins: !player.active}));
+        break;
+      default:
+        throw new InvalidMoveError("Not one of 'n', 'w', or 'l'.");
+    }
+  },
+  over: false,
+  result: undefined
+};
+
+// View stuff:
+
+const consoleView = {
+  takeTurn: function(state) {
+    console.log(state);
+    return readline();
+  },
+  declareResult: function(result) {
+    console.log('Game over:');
+    for (let player of result) {
+      console.log("${player} ${player.wins ? 'wins' : 'loses'}.");
+    }
+  }
+};
 
 // Menu functions:
 
@@ -42,27 +68,18 @@ function switchFromTo(from, to) {
 
 // Local functions:
 
-function startLocalGame() {
-  const localSetup = {
-    registerPlayer1_in: function(func) {
-      this.player1_in = func;
-    },
-    registerPlayer2_in: function(func) {
-      this.player2_in = func;
-    },
-    player1_out: function(move) {
-      this.player2_in(move)
-    },
-    player2_out: function(move) {
-      this.player1_in(move);
-    },
-    begin: function(defaultMove) {
-      this.player1_in(defaultMove);
+async function localController(game, view) {
+  game.setup() // Maybe think of making game a class, and creating a new instance here.
+  while (!game.over) {
+    for (let player of game.players.filter(player => player.active)) {
+      game.update(await view.takeTurn(player, game.state));
     }
-  };
-  startGame(localSetup.registerPlayer1_in, localSetup.player1_out,
-            localSetup.registerPlayer2_in, localSetup.player2_out,
-            localSetup.begin);
+  }
+  view.declareResult(game.result);
+}
+
+function startLocalGame() {
+  localController(DUMMY_game, consoleView);
   switchFromTo('local-menu', 'game');
 }
 
