@@ -60,18 +60,18 @@ class NoughtsAndCrosses extends Game {
     }
   }
   get over() {
-    function row(n) {return (this.board[n][0] == this.board[n][1] &&
+    const row = (n) => {return (this.board[n][0] == this.board[n][1] &&
                              this.board[n][0] == this.board[n][2] &&
-                             this.board[n][0]);}
-    function col(n) {return (this.board[0][n] == this.board[1][n] &&
+                             this.board[n][0]);};
+    const col = (n) => {return (this.board[0][n] == this.board[1][n] &&
                              this.board[0][n] == this.board[2][n] &&
-                             this.board[0][n]);}
-    function diag1() {return (this.board[0][0] == this.board[1][1] &&
+                             this.board[0][n]);};
+    const diag1 = () => {return (this.board[0][0] == this.board[1][1] &&
                               this.board[0][0] == this.board[2][2] &&
-                              this.board[0][0]);}
-    function diag2() {return (this.board[0][2] == this.board[1][1] &&
+                              this.board[0][0]);};
+    const diag2  = () =>  {return (this.board[0][2] == this.board[1][1] &&
                               this.board[0][2] == this.board[2][0] &&
-                              this.board[0][2]);}
+                              this.board[0][2]);};
     let i = 0;
     while (i < 3) {
       if (row(i) || col(i)) {
