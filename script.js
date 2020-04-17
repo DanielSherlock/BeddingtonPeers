@@ -117,6 +117,14 @@ class PromptView extends View {
   }
 }
 
+class canvasView extends View {
+  constructor(id) {
+    // set up stuff
+  }
+  takeTurn(player, state) {}
+  declareResult(result) {}
+}
+
 // Controller Code:
 // ----------------
 
