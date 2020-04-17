@@ -119,6 +119,7 @@ class PromptView extends View {
 
 class CanvasView extends View {
   constructor(id) {
+    super();
     const canvas = document.getElementById(id);
     const c = canvas.getContext('2d');
     c.fillStyle = 'green';
