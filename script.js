@@ -1,4 +1,5 @@
-// Game stuff:
+// Generic Stuff:
+// --------------
 
 class InvalidMoveError extends Error {
   constructor(message) {
@@ -35,6 +36,19 @@ class Game {
     // (If the game is not over, could be anything).
   }
 }
+
+class View {
+  constructor() {}
+  takeTurn(player, state) {
+    // Given a player and a state, returns that player's choice of move.
+  }
+  declareResult(result) {
+    // Given a result, displays it.
+  }
+}
+
+// Game Code:
+// ----------
 
 class NoughtsAndCrosses extends Game {
   constructor() {
@@ -87,17 +101,8 @@ class NoughtsAndCrosses extends Game {
   }
 }
 
-// View stuff:
-
-class View {
-  constructor() {}
-  takeTurn(player, state) {
-    // Given a player and a state, returns that player's choice of move.
-  }
-  declareResult(result) {
-    // Given a result, displays it.
-  }
-}
+// View Code:
+// ----------
 
 class PromptView extends View {
   takeTurn(player, state) {
@@ -112,14 +117,8 @@ class PromptView extends View {
   }
 }
 
-// Menu functions:
-
-function switchFromTo(from, to) {
-  document.getElementById(from).style.display = 'none';
-  document.getElementById(to).style.display = 'block';
-}
-
-// Local functions:
+// Controller Code:
+// ----------------
 
 async function localController(Game, View) {
   const game = new Game();
@@ -132,12 +131,20 @@ async function localController(Game, View) {
   view.declareResult(game.result);
 }
 
+// Menu Functions:
+// ---------------
+
+function switchFromTo(from, to) {
+  document.getElementById(from).style.display = 'none';
+  document.getElementById(to).style.display = 'block';
+}
+
 function startLocalGame() {
   localController(NoughtsAndCrosses, PromptView);
   switchFromTo('local-menu', 'game');
 }
 
-// Non-working PeerJS functions:
+/* Non-working PeerJS menu functions:
 
 function startPeerJSGame(peer, conn, from) {
   return function() {
@@ -184,16 +191,18 @@ function makeConnection(){
     startPeerJSGame(peer, conn, 'lobby-join');
   });
 }
+*/
 
-// Good stuff:
+// Page-load Code:
+// ---------------
 
 function main() {
-  // Non-working PeerJS buttons and stuff:
+  /* Non-working PeerJS buttons and stuff:
   document.getElementById('nickname-button').addEventListener('click', lobbyMainMenu);
   document.getElementById('start-button').addEventListener('click', lobbyStart);
   document.getElementById('join-button').addEventListener('click', lobbyJoin);
-  document.getElementById('player-code-button').addEventListener('click', makeConnection);
-  // Local
+  document.getElementById('player-code-button').addEventListener('click', makeConnection);*/
+  
   document.getElementById('local-start-button').addEventListener('click', startLocalGame);
 }
 
