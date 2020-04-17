@@ -121,9 +121,13 @@ class CanvasView extends View {
   constructor(id) {
     super();
     const canvas = document.getElementById(id);
+    canvas.height = 480;
+    canvas.width = 480;
     const c = canvas.getContext('2d');
+    c.fillStyle = 'yellow';
+    c.fillRect(0, 0, 480, 480);
     c.fillStyle = 'green';
-    c.fillRect(10, 10, 150, 100);
+    c.fillRect(10, 10, 460, 460);
   }
   takeTurn(player, state) {}
   declareResult(result) {}
