@@ -17,7 +17,7 @@ class Game {
   get state() {
     // Should output serialisable game-state, such that:
     //   for all games g1, g2:
-    //   if g1.state.toString === g2.state.toString, then:
+    //   if String(g1.state) === String(g2.state), then:
     //   for all moves (or indeed move-descriptions) m:
     //   if g1.isLegal(m), then: g2.isLegal(m)
   }
@@ -36,35 +36,55 @@ class Game {
   }
 }
 
-/*
-const DUMMY_game = {
-  setup: () => null,
-  players: [{name: 'First', active: true},
-            {name: 'Second', active: false}],
-  get state() {return this},
-  update: function(move) {
-    switch (move) {
-      case 'n':
-        for (let player of this.players) {
-          player.active = !player.active;
+class NoughtsAndCrosses extends Game {
+  constructor() {
+    super();
+    this.players = [{name: 'O', active: true},
+                    {name: 'X', active: false}];
+    this.board = [[' ', ' ', ' '], [' ', ' ', ' '], [' ', ' ', ' ']];
+  }
+  get state() {
+    return this.board.map(row => row.join('')).join('\n');
+  }
+  update(move) {
+    coords = move.split(',', 2).map(n => Number(n));
+    for (let player of this.players) {
+      if (player.active) {
+        if (this.board[coords[0]][coords[1]] !== ' ') {
+          this.board[coords[0]][coords[1]] = player.name;
+        } else {
+          throw new InvalidMoveException('Did not play into an empty cell');
         }
-        break;
-      case 'w':
-        this.over = true;
-        this.result = this.players.map(player => ({name: player.name, wins: player.active}));
-        break;
-      case 'l':
-        this.over = true;
-        this.result = this.players.map(player => ({name: player.name, wins: !player.active}));
-        break;
-      default:
-        throw new InvalidMoveError("Not one of 'n', 'w', or 'l'.");
+      }
+      player.active = !player.active;
     }
-  },
-  over: false,
-  result: undefined
-};
-*/
+  }
+  get over() {
+    function row(n) {return (this.board[n][0] == this.board[n][1] &&
+                             this.board[n][0] == this.board[n][2] &&
+                             this.board[n][0]);}
+    function col(n) {return (this.board[0][n] == this.board[1][n] &&
+                             this.board[0][n] == this.board[2][n] &&
+                             this.board[0][n]);}
+    function diag1() {return (this.board[0][0] == this.board[1][1] &&
+                              this.board[0][0] == this.board[2][2] &&
+                              this.board[0][0]);}
+    function diag2() {return (this.board[0][2] == this.board[1][1] &&
+                              this.board[0][2] == this.board[2][0] &&
+                              this.board[0][2]);}
+    let i = 0;
+    while (i < 3) {
+      if (row(n) || col(n)) {
+        return row(n) || col(n);
+      }
+      i++;
+    }
+    return diag1() || diag2();
+  }
+  get result() {
+    return this.players.map(player => ({...player, wins: this.over === player.name}));
+  }
+}
 
 // View stuff:
 
@@ -112,7 +132,7 @@ async function localController(Game, View) {
 }
 
 function startLocalGame() {
-  localController(DUMMY_game, PromptView);
+  localController(NoughtsAndCrosses, PromptView);
   switchFromTo('local-menu', 'game');
 }
 
