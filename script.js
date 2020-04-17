@@ -53,7 +53,7 @@ class NoughtsAndCrosses extends Game {
         if (this.board[coords[0]][coords[1]] !== ' ') {
           this.board[coords[0]][coords[1]] = player.name;
         } else {
-          throw new InvalidMoveException('Did not play into an empty cell');
+          throw new InvalidMoveError('Did not play into an empty cell');
         }
       }
       player.active = !player.active;
