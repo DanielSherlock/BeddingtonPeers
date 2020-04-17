@@ -47,9 +47,9 @@ const DUMMY_game = {
 // View stuff:
 
 const consoleView = {
-  takeTurn: function(state) {
+  takeTurn: function(player, state) {
     console.log(state);
-    return readline();
+    return console.readline();
   },
   declareResult: function(result) {
     console.log('Game over:');
