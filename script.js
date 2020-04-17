@@ -78,18 +78,18 @@ class View {
   }
 }
 
-const promptView = {
-  takeTurn: function(player, state) {
+class PromptView extends View {
+  takeTurn(player, state) {
     return prompt(`${state}\n${player.name}'s turn:`);
-  },
-  declareResult: function(result) {
+  }
+  declareResult(result) {
     let description = 'Game over:';
     for (let player of result) {
       description += `\n${player.name} ${player.wins ? 'wins' : 'loses'}.`;
     }
     alert(description);
   }
-};
+}
 
 // Menu functions:
 
@@ -112,7 +112,7 @@ async function localController(Game, View) {
 }
 
 function startLocalGame() {
-  localController(DUMMY_game, promptView);
+  localController(DUMMY_game, PromptView);
   switchFromTo('local-menu', 'game');
 }
 
