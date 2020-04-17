@@ -47,7 +47,7 @@ class NoughtsAndCrosses extends Game {
     return this.board.map(row => row.join('')).join('\n');
   }
   update(move) {
-    coords = move.split(',', 2).map(n => Number(n));
+    let coords = move.split(',', 2).map(n => Number(n));
     for (let player of this.players) {
       if (player.active) {
         if (this.board[coords[0]][coords[1]] !== ' ') {
