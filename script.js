@@ -7,15 +7,36 @@ class InvalidMoveError extends Error {
   }
 }
 
-const game = {
-  setup: () => undefined,
-  players: [],
-  get state() {},
-  update: () => undefined,
-  get over() {},
-  get result() {}
-};
+class Game {
+  constructor() {
+    // ---
+    // Is an array of  {name: 'Player Name', active: true, ...}.
+    // (active-ness is used by controllers to manage when people take turns).
+    this.players = [];
+  }
+  get state() {
+    // Should output serialisable game-state, such that:
+    //   for all games g1, g2:
+    //   if g1.state.toString === g2.state.toString, then:
+    //   for all moves (or indeed move-descriptions) m:
+    //   if g1.isLegal(m), then: g2.isLegal(m)
+  }
+  update(move) {
+    // Should accept a move-description, and use it to update the state.
+    // A single move-possibility may have multiple distinct possible descriptions,
+    //   so long as they all update to equivalent states (see above).
+    // If the move(-description) is invalid, update should throw an InvalidMoveError.
+  }
+  get over() {
+    // Returns true if the game is over, false otherwise.
+  }
+  get result() {
+    // Returns a result if the game is over.
+    // (If the game is not over, could be anything).
+  }
+}
 
+/*
 const DUMMY_game = {
   setup: () => null,
   players: [{name: 'First', active: true},
@@ -43,8 +64,19 @@ const DUMMY_game = {
   over: false,
   result: undefined
 };
+*/
 
 // View stuff:
+
+class View {
+  constructor() {}
+  takeTurn(player, state) {
+    // Given a player and a state, returns that player's choice of move.
+  }
+  declareResult(result) {
+    // Given a result, displays it.
+  }
+}
 
 const promptView = {
   takeTurn: function(player, state) {
