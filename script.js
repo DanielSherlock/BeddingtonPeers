@@ -48,12 +48,12 @@ const DUMMY_game = {
 
 const promptView = {
   takeTurn: function(player, state) {
-    return prompt(state);
+    return prompt(`${state}\n${player.name}'s turn:`);
   },
   declareResult: function(result) {
     let description = 'Game over:';
     for (let player of result) {
-      description += `\n${player} ${player.wins ? 'wins' : 'loses'}.`;
+      description += `\n${player.name} ${player.wins ? 'wins' : 'loses'}.`;
     }
     alert(description);
   }
