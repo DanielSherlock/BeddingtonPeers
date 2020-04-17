@@ -126,24 +126,32 @@ class CanvasView extends View {
     this.c = this.canvas.getContext('2d');
     this.drawGrid([[' ', ' ', ' '], [' ', ' ', ' '], [' ', ' ', ' ']], 0, 0, 480, 480);
   }
-  drawGrid(grid, x, y, width, height) {
+  drawCell(contents, x, y, dimension) {}
+  drawBoard(grid, x, y, width, height) {
     let cellHeight = grid.length;
     let cellWidth = grid[0].length;
     let cellDimension = Math.min(width/cellWidth, height/cellHeight);
-    let i = 1, j = 1;
+    let i = 0, j = 0;
     while (i < cellWidth) {
-      this.c.beginPath();
-      this.c.moveTo(x + i * cellDimension, y);
-      this.c.lineTo(x + i * cellDimension, y + cellHeight * cellDimension);
-      this.c.stroke();
+      while (j < cellHeight) {
+        let originX = x + i * cellDimension;
+        let originY = y + j * cellDimension;
+        if (i > 0) {
+          this.c.beginPath();
+          this.c.moveTo(originX, originY);
+          this.c.lineTo(originX, originY + cellDimension);
+          this.c.stroke();
+        }
+        if (j > 0) {
+          this.c.beginPath();
+          this.c.moveTo(originX, originY);
+          this.c.lineTo(originX + cellDimension, originY);
+          this.c.stroke();
+        }
+        this.drawCell(grid[j][i], originX, originY, cellDimension);
+        j++;
+      }
       i++;
-    }
-    while (j < cellHeight) {
-      this.c.beginPath();
-      this.c.moveTo(x, y + j * cellDimension);
-      this.c.lineTo(x + cellWidth * cellDimension, y + j * cellDimension);
-      this.c.stroke();
-      j++;
     }
   }
   takeTurn(player, state) {}
