@@ -74,8 +74,8 @@ class NoughtsAndCrosses extends Game {
                               this.board[0][2]);}
     let i = 0;
     while (i < 3) {
-      if (row(n) || col(n)) {
-        return row(n) || col(n);
+      if (row(i) || col(i)) {
+        return row(i) || col(i);
       }
       i++;
     }
