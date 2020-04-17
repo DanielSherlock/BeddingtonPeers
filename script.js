@@ -46,16 +46,16 @@ const DUMMY_game = {
 
 // View stuff:
 
-const consoleView = {
+const promptView = {
   takeTurn: function(player, state) {
-    console.log(state);
-    return console.readline();
+    return prompt(state);
   },
   declareResult: function(result) {
-    console.log('Game over:');
+    let description = 'Game over:';
     for (let player of result) {
-      console.log("${player} ${player.wins ? 'wins' : 'loses'}.");
+      description += "\n${player} ${player.wins ? 'wins' : 'loses'}.";
     }
+    alert(description);
   }
 };
 
@@ -79,7 +79,7 @@ async function localController(game, view) {
 }
 
 function startLocalGame() {
-  localController(DUMMY_game, consoleView);
+  localController(DUMMY_game, promptView);
   switchFromTo('local-menu', 'game');
 }
 
