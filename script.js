@@ -124,10 +124,25 @@ class CanvasView extends View {
     canvas.height = 480;
     canvas.width = 480;
     const c = canvas.getContext('2d');
-    c.fillStyle = 'yellow';
-    c.fillRect(0, 0, 480, 480);
-    c.fillStyle = 'green';
-    c.fillRect(10, 10, 460, 460);
+    this.drawGrid([[' ', ' ', ' '], [' ', ' ', ' '], [' ', ' ', ' ']], 0, 0, 480, 480);
+  }
+  drawGrid(grid, x, y, width, height) {
+    let cellHeight = grid.length;
+    let cellWidth = grid[0].length;
+    let cellDimension = min(width/cellWidth, height/cellHeight);
+    let i = 1, j = 1;
+    while (i < cellWidth) {
+      c.beginPath();
+      c.moveTo(x + i * cellDimension, y);
+      c.lineTo(x + i * cellDimension, y + cellHeight * cellDimension);
+      c.stroke();
+    }
+    while (j < cellHeight) {
+      c.beginPath();
+      c.moveTo(x, y + j * cellDimension);
+      c.lineTo(x + cellWidth * cellDimension, y + j * cellDimension);
+      c.stroke();
+    }
   }
   takeTurn(player, state) {}
   declareResult(result) {}
