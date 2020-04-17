@@ -78,9 +78,9 @@ async function localController(game, view) {
   view.declareResult(game.result);
 }
 
-async function startLocalGame() {
+function startLocalGame() {
+  localController(DUMMY_game, consoleView);
   switchFromTo('local-menu', 'game');
-  await localController($GAME, $VIEW);
 }
 
 // Non-working PeerJS functions:
