@@ -120,10 +120,10 @@ class PromptView extends View {
 class CanvasView extends View {
   constructor(id) {
     super();
-    const canvas = document.getElementById(id);
-    canvas.height = 480;
-    canvas.width = 480;
-    const c = canvas.getContext('2d');
+    this.canvas = document.getElementById(id);
+    this.canvas.height = 480;
+    this.canvas.width = 480;
+    this.c = canvas.getContext('2d');
     this.drawGrid([[' ', ' ', ' '], [' ', ' ', ' '], [' ', ' ', ' ']], 0, 0, 480, 480);
   }
   drawGrid(grid, x, y, width, height) {
@@ -132,16 +132,16 @@ class CanvasView extends View {
     let cellDimension = Math.min(width/cellWidth, height/cellHeight);
     let i = 1, j = 1;
     while (i < cellWidth) {
-      c.beginPath();
-      c.moveTo(x + i * cellDimension, y);
-      c.lineTo(x + i * cellDimension, y + cellHeight * cellDimension);
-      c.stroke();
+      this.c.beginPath();
+      this.c.moveTo(x + i * cellDimension, y);
+      this.c.lineTo(x + i * cellDimension, y + cellHeight * cellDimension);
+      this.c.stroke();
     }
     while (j < cellHeight) {
-      c.beginPath();
-      c.moveTo(x, y + j * cellDimension);
-      c.lineTo(x + cellWidth * cellDimension, y + j * cellDimension);
-      c.stroke();
+      this.c.beginPath();
+      this.c.moveTo(x, y + j * cellDimension);
+      this.c.lineTo(x + cellWidth * cellDimension, y + j * cellDimension);
+      this.c.stroke();
     }
   }
   takeTurn(player, state) {}
