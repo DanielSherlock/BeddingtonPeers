@@ -50,7 +50,7 @@ class NoughtsAndCrosses extends Game {
     let coords = move.split(',', 2).map(n => Number(n));
     for (let player of this.players) {
       if (player.active) {
-        if (this.board[coords[0]][coords[1]] !== ' ') {
+        if (this.board[coords[0]][coords[1]] === ' ') {
           this.board[coords[0]][coords[1]] = player.name;
         } else {
           throw new InvalidMoveError('Did not play into an empty cell');
