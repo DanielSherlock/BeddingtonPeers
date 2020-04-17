@@ -123,7 +123,7 @@ class CanvasView extends View {
     this.canvas = document.getElementById(id);
     this.canvas.height = 480;
     this.canvas.width = 480;
-    this.c = canvas.getContext('2d');
+    this.c = this.canvas.getContext('2d');
     this.drawGrid([[' ', ' ', ' '], [' ', ' ', ' '], [' ', ' ', ' ']], 0, 0, 480, 480);
   }
   drawGrid(grid, x, y, width, height) {
