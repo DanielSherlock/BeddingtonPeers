@@ -100,8 +100,9 @@ function switchFromTo(from, to) {
 
 // Local functions:
 
-async function localController(game, view) {
-  game.setup() // Maybe think of making game a class, and creating a new instance here.
+async function localController(Game, View) {
+  const game = new Game();
+  const view = new View(game); // ?? passing game to View ??
   while (!game.over) {
     for (let player of game.players.filter(player => player.active)) {
       game.update(await view.takeTurn(player, game.state));
