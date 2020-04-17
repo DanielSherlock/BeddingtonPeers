@@ -131,8 +131,9 @@ class CanvasView extends View {
     let cellHeight = grid.length;
     let cellWidth = grid[0].length;
     let cellDimension = Math.min(width/cellWidth, height/cellHeight);
-    let i = 0, j = 0;
+    let i = 0;
     while (i < cellWidth) {
+      let j = 0;
       while (j < cellHeight) {
         let originX = x + i * cellDimension;
         let originY = y + j * cellDimension;
