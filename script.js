@@ -69,17 +69,18 @@ class NoughtsAndCrosses extends Game {
     const diag1 = () => {return (this.board[0][0] == this.board[1][1] &&
                               this.board[0][0] == this.board[2][2] &&
                               this.board[0][0]);};
-    const diag2  = () =>  {return (this.board[0][2] == this.board[1][1] &&
+    const diag2 = () => {return (this.board[0][2] == this.board[1][1] &&
                               this.board[0][2] == this.board[2][0] &&
                               this.board[0][2]);};
+    const notBlank = cell => cell !== ' ' && cell;
     let i = 0;
+    let triple = false;
     while (i < 3) {
-      if (row(i) || col(i)) {
-        return row(i) || col(i);
-      }
+      triple = triple || notBlank(row(i)) || notBlank(col(i));
       i++;
     }
-    return diag1() || diag2();
+    triple = triple || notBlank(diag1()) || notBlank(diag2());
+    return triple;
   }
   get result() {
     return this.players.map(player => ({...player, wins: this.over === player.name}));
