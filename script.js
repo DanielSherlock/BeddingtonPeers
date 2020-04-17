@@ -117,9 +117,12 @@ class PromptView extends View {
   }
 }
 
-class canvasView extends View {
+class CanvasView extends View {
   constructor(id) {
-    // set up stuff
+    const canvas = document.getElementById(id);
+    const c = canvas.getContext('2d');
+    c.fillStyle = 'green';
+    c.fillRect(10, 10, 150, 100);
   }
   takeTurn(player, state) {}
   declareResult(result) {}
@@ -128,9 +131,7 @@ class canvasView extends View {
 // Controller Code:
 // ----------------
 
-async function localController(Game, View) {
-  const game = new Game();
-  const view = new View(game); // ?? passing game to View ??
+async function localController(game, view) {
   while (!game.over) {
     for (let player of game.players.filter(player => player.active)) {
       game.update(await view.takeTurn(player, game.state));
@@ -148,7 +149,7 @@ function switchFromTo(from, to) {
 }
 
 function startLocalGame() {
-  localController(NoughtsAndCrosses, PromptView);
+  localController(new NoughtsAndCrosses(), new CanvasView('game-canvas'));
   switchFromTo('local-menu', 'game');
 }
 
