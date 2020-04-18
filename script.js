@@ -207,49 +207,26 @@ class CanvasView extends View {
                     [' ', ' ', ' '],
                     [' ', ' ', ' ']];
     this.board = new CanvasComponent(0, 0);
-    for (let rowKey of template.keys()) { // Surely this is screaming out for a fold
+    for (let rowKey of template.keys()) {
       let row = new CanvasComponent(0, 0);
-      for (let colKey of template[rowKey].keys()) { // Javascript has a fold, right?
-        row = row.beside(new CanvasComponent.Cell())
+      for (let colKey of template[rowKey].keys()) {
+        if (colKey > 0) {
+          row = row.beside(new CanvasComponent.V_Line());
+        }
+        row = row.beside(new CanvasComponent.Cell());
+      }
+      if (rowKey > 0) {
+        this.board = this.board.above(new CanvasComponent.H_Line());
       }
       this.board = this.board.above(row);
     }
     
     this.canvas = document.getElementById(id);
-    this.canvas.height = this.board.height; // (*)
-    this.canvas.width = this.board.width; // (*)
-    this.c = this.canvas.getContext('2d');
-    this.board.draw(this.c)
+    this.canvas.height = this.board.height;
+    this.canvas.width = this.board.width;
+    this.context = this.canvas.getContext('2d');
+    this.board.draw(this.context)
   }
-  /*
-  drawBoard(grid, x, y, width, height) {
-    let cellHeight = grid.length;
-    let cellWidth = grid[0].length;
-    let cellDimension = Math.min(width/cellWidth, height/cellHeight);
-    let i = 0;
-    while (i < cellWidth) {
-      let j = 0;
-      while (j < cellHeight) {
-        let originX = x + i * cellDimension;
-        let originY = y + j * cellDimension;
-        if (i > 0) {
-          this.c.beginPath();
-          this.c.moveTo(originX, originY);
-          this.c.lineTo(originX, originY + cellDimension);
-          this.c.stroke();
-        }
-        if (j > 0) {
-          this.c.beginPath();
-          this.c.moveTo(originX, originY);
-          this.c.lineTo(originX + cellDimension, originY);
-          this.c.stroke();
-        }
-        this.drawCell(grid[j][i], originX, originY, cellDimension);
-        j++;
-      }
-      i++;
-    }
-  }*/
   takeTurn(player, state) {}
   declareResult(result) {}
 }
