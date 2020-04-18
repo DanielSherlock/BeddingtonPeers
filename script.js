@@ -167,11 +167,12 @@ class CanvasComponent {
 }
   
 CanvasComponent.Cell = class extends CanvasComponent {
-  constructor(readArgs) {
-    super(60, 60, readArgs);
+  constructor(coords) {
+    super(60, 60);
+    this.coords = coords;
   }
-  draw(context, ...args) {
-    switch (this.readArgs(...args)) {
+  draw(context, board) {
+    switch (board[this.coords[0]][this.coords[1]]) {
       case 'X':
         context.fillRect(10, 10, 40, 40);
         break;
@@ -184,7 +185,7 @@ CanvasComponent.Cell = class extends CanvasComponent {
   }
   handle(event) {
     if (event.name === 'click') {
-      alert(`Click at (${event.x}, ${event.y})`);
+      alert(`Click at ${this.coords}`);
     }
   }
 };
