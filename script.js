@@ -174,7 +174,7 @@ CanvasComponent.Cell = class extends CanvasComponent {
     this.coords = coords;
   }
   draw(context, board) {
-    switch (board[this.coords.x][this.coords.y]) {
+    switch (board[this.coords.y][this.coords.x]) {
       case 'X':
         context.fillRect(10, 10, 40, 40);
         break;
@@ -222,15 +222,15 @@ class CanvasView extends View {
                     [' ', ' ', ' '],
                     [' ', ' ', ' ']];
     this.board = new CanvasComponent(0, 0);
-    for (let rowKey of template.keys()) {
+    for (let y of template.keys()) {
       let row = new CanvasComponent(0, 0);
-      for (let colKey of template[rowKey].keys()) {
-        if (colKey > 0) {
+      for (let x of template[rowKey].keys()) {
+        if (x > 0) {
           row = row.beside(new CanvasComponent.V_Line());
         }
-        row = row.beside(new CanvasComponent.Cell({x: rowKey, y: colKey}));
+        row = row.beside(new CanvasComponent.Cell({x, y}));
       }
-      if (rowKey > 0) {
+      if (y > 0) {
         this.board = this.board.above(new CanvasComponent.H_Line());
       }
       this.board = this.board.above(row);
