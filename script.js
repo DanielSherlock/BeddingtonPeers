@@ -118,9 +118,10 @@ class PromptView extends View {
 }
 
 class CanvasComponent {
-  constructor(width, height) {
+  constructor(width, height, readArgs) {
     this.width = width;
     this.height = height;
+    this.readArgs = readArgs;
   }
   draw(context, ...args) {}
   handle(event) {}
@@ -166,16 +167,11 @@ class CanvasComponent {
 }
   
 CanvasComponent.Cell = class extends CanvasComponent {
-  constructor() {
-    super(60, 60);
+  constructor(readArgs) {
+    super(60, 60, readArgs);
   }
-  draw(context, colour, ...args) {
-    context.save();
-    if (colour) {
-      context.fillStyle = colour;
-    }
+  draw(context, ...args) {
     context.fillRect(10, 10, 40, 40);
-    context.restore();
   }
 };
   
