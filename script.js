@@ -58,7 +58,7 @@ class NoughtsAndCrosses extends Game {
     this.board = [[' ', ' ', ' '], [' ', ' ', ' '], [' ', ' ', ' ']];
   }
   get state() {
-    return this.board.map(row => row.join('')).join('\n');
+    return this.board;
   }
   update(move) {
     let coords = move.split(',', 2).map(n => Number(n));
@@ -171,7 +171,16 @@ CanvasComponent.Cell = class extends CanvasComponent {
     super(60, 60, readArgs);
   }
   draw(context, ...args) {
-    context.fillRect(10, 10, 40, 40);
+    switch (this.readArgs(...args)) {
+      case 'X':
+        context.fillRect(10, 10, 40, 40);
+        break;
+      case 'O':
+        context.beginPath();
+        context.arc(30, 30, 20, 0, Math.PI * 2, true);
+        context.fill();
+        break
+    }
   }
 };
   
@@ -213,7 +222,7 @@ class CanvasView extends View {
         if (colKey > 0) {
           row = row.beside(new CanvasComponent.V_Line());
         }
-        row = row.beside(new CanvasComponent.Cell());
+        row = row.beside(new CanvasComponent.Cell(grid => grid[rowKey][colKey]));
       }
       if (rowKey > 0) {
         this.board = this.board.above(new CanvasComponent.H_Line());
