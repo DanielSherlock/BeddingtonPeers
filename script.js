@@ -205,7 +205,7 @@ class CanvasView extends View {
     this.canvas.height = 480; // (*)
     this.canvas.width = 480; // (*)
     this.c = this.canvas.getContext('2d');
-    (new CanvasComponent.V_Line()).draw(this.c);
+    (new CanvasComponent.Cell()).beside(new CanvasComponent.V_Line()).draw(this.c);
     //this.drawBoard([[' ', ' ', ' '], [' ', ' ', ' '], [' ', ' ', ' ']], 0, 0, 480, 480);
   }
   /*drawCell(contents, x, y, dimension) {}
