@@ -234,7 +234,11 @@ class CanvasView extends View {
     this.canvas.height = this.board.height;
     this.canvas.width = this.board.width;
     this.context = this.canvas.getContext('2d');
-    this.board.draw(this.context, template)
+    
+    let testboard = [['O', 'X', 'O'],
+                     [' ', 'X', ' '],
+                     ['X', ' ', ' ']];
+    this.board.draw(this.context, testboard);
   }
   takeTurn(player, state) {}
   declareResult(result) {}
