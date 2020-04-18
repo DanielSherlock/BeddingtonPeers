@@ -122,18 +122,18 @@ class CanvasComponent {
     this.width = width;
     this.height = height;
   }
-  draw(context) {}
+  draw(context, ...args) {}
   handle(event) {}
   beside(component) {
     // Note: for now this is a very simple algorithm.
     // Eventually I will add a 'stretch' coefficient to components that will take away all the hard-coding.
     let result = new CanvasComponent(this.width + component.width,
                                      Math.max(this.height, component.height));
-    result.draw = context => {
+    result.draw = (context, ...args) => {
       context.save();
-      this.draw(context);
+      this.draw(context, ...args);
       context.translate(this.width, 0);
-      component.draw(context);
+      component.draw(context, ...args);
       context.restore();
     };
     result.handle = event => {
@@ -148,10 +148,10 @@ class CanvasComponent {
   }
   flipped() {
     let result = new CanvasComponent(this.height, this.width);
-    result.draw = context => {
+    result.draw = (context, ...args) => {
       context.save();
       context.transform(0, 1, 1, 0, 0, 0);
-      this.draw(context);
+      this.draw(context, ...args);
       context.restore();
     };
     result.handle = event => {
@@ -169,8 +169,13 @@ CanvasComponent.Cell = class extends CanvasComponent {
   constructor() {
     super(60, 60);
   }
-  draw(context) {
+  draw(context, colour, ...args) {
+    context.save();
+    if (colour) {
+      context.fillStyle = colour;
+    }
     context.fillRect(10, 10, 40, 40);
+    context.restore();
   }
 };
   
@@ -178,7 +183,7 @@ CanvasComponent.V_Line = class extends CanvasComponent {
   constructor() {
     super(0, 60); // (*)
   }
-  draw(context) {
+  draw(context, ...args) {
     context.beginPath();
     context.moveTo(0, 0);
     context.lineTo(0, 60); // (*)
@@ -190,7 +195,7 @@ CanvasComponent.H_Line = class extends CanvasComponent {
   constructor() {
     super(180, 0); // (*)
   }
-  draw(context) {
+  draw(context, ...args) {
     context.beginPath();
     context.moveTo(0, 0);
     context.lineTo(180, 0); // (*) Hard-coded dimensions for simplicity for now.
@@ -205,7 +210,7 @@ class CanvasView extends View {
     this.canvas.height = 480; // (*)
     this.canvas.width = 480; // (*)
     this.c = this.canvas.getContext('2d');
-    (new CanvasComponent.Cell()).beside(new CanvasComponent.V_Line()).draw(this.c);
+    (new CanvasComponent.Cell()).beside(new CanvasComponent.V_Line()).draw(this.c, 'blue');
     //this.drawBoard([[' ', ' ', ' '], [' ', ' ', ' '], [' ', ' ', ' ']], 0, 0, 480, 480);
   }
   /*drawCell(contents, x, y, dimension) {}
