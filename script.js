@@ -185,7 +185,7 @@ CanvasComponent.Cell = class extends CanvasComponent {
   }
   handle(event) {
     if (event.name === 'click') {
-      alert(`Click at ${this.coords}`);
+      console.log(`Click at ${this.coords}`);
     }
   }
 };
