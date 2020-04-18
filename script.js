@@ -241,11 +241,23 @@ class CanvasView extends View {
     this.canvas.width = this.board.width;
     this.context = this.canvas.getContext('2d');
     
-    this.canvas.addEventListener('click', event => {
-      console.log(this.board.identify({
+    this.canvas.onEvent = (eventName, func) => {
+      let handler = event => {
+        if (func(event)) {
+          this.canvas.removeEventListener(eventName, handler);
+        }
+      };
+      this.canvas.addEventListener(eventName, handler);
+    };
+    
+    this.canvas.onEvent('click', event => {
+      let coords = this.board.identify({
         x: event.clientX - this.canvas.getBoundingClientRect().left,
         y: event.clientY - this.canvas.getBoundingClientRect().top
-      }));
+      });
+      if (coords.x === 0) {
+        return true;
+      }
     });
     
     let testboard = [['O', 'X', 'O'],
