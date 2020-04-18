@@ -252,7 +252,7 @@ class CanvasView extends View {
   }
   
   takeTurn(player, state) {
-    return Promise(resolve => {
+    return new Promise(resolve => {
       this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
       this.board.draw(this.context, state);
       this.canvas.onEvent('click', event => {
