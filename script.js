@@ -177,24 +177,24 @@ const CV = {
   
   V_Line: class extends this.CanvasComponent {
     constructor() {
-      super(0, 60);
+      super(0, 60); // (*)
     }
     draw(context) {
       context.beginPath();
       context.moveTo(0, 0);
-      context.lineTo(0, 60);
+      context.lineTo(0, 60); // (*)
       context.stroke();
     }
   },
   
   H_Line: class extends this.CanvasComponent {
     constructor() {
-      super(180, 0);
+      super(180, 0); // (*)
     }
     draw(context) {
       context.beginPath();
       context.moveTo(0, 0);
-      context.lineTo(180, 00);
+      context.lineTo(180, 00); // (*) Hard-coded dimensions for simplicity for now.
       context.stroke();
     }
   }
@@ -204,12 +204,13 @@ class CanvasView extends View {
   constructor(id) {
     super();
     this.canvas = document.getElementById(id);
-    this.canvas.height = 480;
-    this.canvas.width = 480;
+    this.canvas.height = 480; // (*)
+    this.canvas.width = 480; // (*)
     this.c = this.canvas.getContext('2d');
-    this.drawBoard([[' ', ' ', ' '], [' ', ' ', ' '], [' ', ' ', ' ']], 0, 0, 480, 480);
+    (new CV.Cell()).draw(this.c);
+    //this.drawBoard([[' ', ' ', ' '], [' ', ' ', ' '], [' ', ' ', ' ']], 0, 0, 480, 480);
   }
-  drawCell(contents, x, y, dimension) {}
+  /*drawCell(contents, x, y, dimension) {}
   drawBoard(grid, x, y, width, height) {
     let cellHeight = grid.length;
     let cellWidth = grid[0].length;
@@ -237,7 +238,7 @@ class CanvasView extends View {
       }
       i++;
     }
-  }
+  }*/
   takeTurn(player, state) {}
   declareResult(result) {}
 }
