@@ -182,6 +182,11 @@ CanvasComponent.Cell = class extends CanvasComponent {
         break
     }
   }
+  handle(event) {
+    if (event.name === 'click') {
+      alert(`Click at (${event.x}, ${event.y})`);
+    }
+  }
 };
   
 CanvasComponent.V_Line = class extends CanvasComponent {
@@ -234,6 +239,14 @@ class CanvasView extends View {
     this.canvas.height = this.board.height;
     this.canvas.width = this.board.width;
     this.context = this.canvas.getContext('2d');
+    
+    this.canvas.addEventListener('click', event => {
+      this.board.handle({
+        name: 'click',
+        x: event.clientX - this.canvas.getBoundingClientRect().left,
+        y: event.clientY - this.canvas.getBoundingClientRect().top
+      });
+    });
     
     let testboard = [['O', 'X', 'O'],
                      [' ', 'X', ' '],
