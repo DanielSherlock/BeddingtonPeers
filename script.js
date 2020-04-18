@@ -117,6 +117,55 @@ class PromptView extends View {
   }
 }
 
+const CV = {
+  // Companion object for CanvasView
+  
+  CanvasComponent: class CC {
+    draw(context) {}
+    handle(event) {}
+    beside(component) {
+      let result = new CC();
+      result.width = this.width + component.width;
+      result.height = Math.max(this.height, component.height);
+      result.draw = context => {
+        context.save();
+        this.draw(context);
+        context.translateX(this.width);
+        component.draw(context);
+        context.restore();
+      };
+      result.handle = event => {
+        if (event.x < this.width && event.y < this.height) {
+          this.handle(event);
+        } else if (event.y < component.height) {
+          event.x -= this.width;
+          component.handle(event);
+        }
+      };
+      return result;
+    }
+    flipped() {
+      let result = new CC();
+      result.width = this.height;
+      result.height = this.width;
+      result.draw = context => {
+        context.save();
+        context.transform(0, 1, 1, 0, 0, 0);
+        this.draw(context);
+        context.restore();
+      };
+      result.handle = event => {
+        [event.x, event.y] = [event.y, event.x];
+        this.handle(event);
+      };
+      return result;
+    }
+    above(component) {
+      return this.flipped().beside(component.flipped()).flipped();
+    }
+  }
+}
+
 class CanvasView extends View {
   constructor(id) {
     super();
