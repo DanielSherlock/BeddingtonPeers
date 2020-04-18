@@ -121,12 +121,15 @@ const CV = {
   // Companion object for CanvasView
   
   CanvasComponent: class CC {
+    constructor(width, height) {
+      width;
+      height;
+    }
     draw(context) {}
     handle(event) {}
     beside(component) {
-      let result = new CC();
-      result.width = this.width + component.width;
-      result.height = Math.max(this.height, component.height);
+      let result = new CC(this.width + component.width,
+                          Math.max(this.height, component.height));
       result.draw = context => {
         context.save();
         this.draw(context);
@@ -145,9 +148,7 @@ const CV = {
       return result;
     }
     flipped() {
-      let result = new CC();
-      result.width = this.height;
-      result.height = this.width;
+      let result = new CC(this.height, this.width);
       result.draw = context => {
         context.save();
         context.transform(0, 1, 1, 0, 0, 0);
@@ -162,6 +163,39 @@ const CV = {
     }
     above(component) {
       return this.flipped().beside(component.flipped()).flipped();
+    }
+  },
+  
+  Cell: class extends this.CanvasComponent {
+    constructor() {
+      super(60, 60);
+    }
+    draw(context) {
+      context.fillRect(10, 10, 40, 40);
+    }
+  },
+  
+  V_Line: class extends this.CanvasComponent {
+    constructor() {
+      super(0, 60);
+    }
+    draw(context) {
+      context.beginPath();
+      context.moveTo(0, 0);
+      context.lineTo(0, 60);
+      context.stroke();
+    }
+  },
+  
+  H_Line: class extends this.CanvasComponent {
+    constructor() {
+      super(180, 0);
+    }
+    draw(context) {
+      context.beginPath();
+      context.moveTo(0, 0);
+      context.lineTo(180, 00);
+      context.stroke();
     }
   }
 }
