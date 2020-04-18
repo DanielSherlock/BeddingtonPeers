@@ -125,6 +125,8 @@ class CanvasComponent {
   draw(context) {}
   handle(event) {}
   beside(component) {
+    // Note: for now this is a very simple algorithm.
+    // Eventually I will add a 'stretch' coefficient to components that will take away all the hard-coding.
     let result = new CanvasComponent(this.width + component.width,
                                      Math.max(this.height, component.height));
     result.draw = context => {
