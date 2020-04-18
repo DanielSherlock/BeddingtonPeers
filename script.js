@@ -159,7 +159,7 @@ class CanvasComponent {
     };
     result.identify = coords => {
       [coords.x, coords.y] = [coords.y, coords.x];
-      this.identify(coords);
+      return this.identify(coords);
     };
     return result;
   }
