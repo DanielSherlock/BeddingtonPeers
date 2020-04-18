@@ -172,7 +172,7 @@ CanvasComponent.Cell = class extends CanvasComponent {
     this.coords = coords;
   }
   draw(context, board) {
-    switch (board[this.coords[0]][this.coords[1]]) {
+    switch (board[this.coords.x][this.coords.y]) {
       case 'X':
         context.fillRect(10, 10, 40, 40);
         break;
@@ -228,7 +228,7 @@ class CanvasView extends View {
         if (colKey > 0) {
           row = row.beside(new CanvasComponent.V_Line());
         }
-        row = row.beside(new CanvasComponent.Cell(grid => grid[rowKey][colKey]));
+        row = row.beside(new CanvasComponent.Cell({x: rowKey, y: colKey}));
       }
       if (rowKey > 0) {
         this.board = this.board.above(new CanvasComponent.H_Line());
