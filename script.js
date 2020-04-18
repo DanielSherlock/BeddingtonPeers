@@ -224,7 +224,7 @@ class CanvasView extends View {
     this.board = new CanvasComponent(0, 0);
     for (let y of template.keys()) {
       let row = new CanvasComponent(0, 0);
-      for (let x of template[rowKey].keys()) {
+      for (let x of template[y].keys()) {
         if (x > 0) {
           row = row.beside(new CanvasComponent.V_Line());
         }
