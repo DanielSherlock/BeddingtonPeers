@@ -194,7 +194,7 @@ const CV = {
     draw(context) {
       context.beginPath();
       context.moveTo(0, 0);
-      context.lineTo(180, 00); // (*) Hard-coded dimensions for simplicity for now.
+      context.lineTo(180, 0); // (*) Hard-coded dimensions for simplicity for now.
       context.stroke();
     }
   }
