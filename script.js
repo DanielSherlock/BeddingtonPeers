@@ -117,88 +117,84 @@ class PromptView extends View {
   }
 }
 
-const CV = {
-  // Companion object for CanvasView
-  
-  CanvasComponent: class CC {
-    constructor(width, height) {
-      this.width = width;
-      this.height = height;
-    }
-    draw(context) {}
-    handle(event) {}
-    beside(component) {
-      let result = new CC(this.width + component.width,
-                          Math.max(this.height, component.height));
-      result.draw = context => {
-        context.save();
-        this.draw(context);
-        context.translate(this.width, 0);
-        component.draw(context);
-        context.restore();
-      };
-      result.handle = event => {
-        if (event.x < this.width && event.y < this.height) {
-          this.handle(event);
-        } else if (event.y < component.height) {
-          event.x -= this.width;
-          component.handle(event);
-        }
-      };
-      return result;
-    }
-    flipped() {
-      let result = new CC(this.height, this.width);
-      result.draw = context => {
-        context.save();
-        context.transform(0, 1, 1, 0, 0, 0);
-        this.draw(context);
-        context.restore();
-      };
-      result.handle = event => {
-        [event.x, event.y] = [event.y, event.x];
+class CanvasComponent {
+  constructor(width, height) {
+    this.width = width;
+    this.height = height;
+  }
+  draw(context) {}
+  handle(event) {}
+  beside(component) {
+    let result = new CanvasComponent(this.width + component.width,
+                                     Math.max(this.height, component.height));
+    result.draw = context => {
+      context.save();
+      this.draw(context);
+      context.translate(this.width, 0);
+      component.draw(context);
+      context.restore();
+    };
+    result.handle = event => {
+      if (event.x < this.width && event.y < this.height) {
         this.handle(event);
-      };
-      return result;
-    }
-    above(component) {
-      return this.flipped().beside(component.flipped()).flipped();
-    }
-  },
-  
-  Cell: class extends CV.CanvasComponent {
-    constructor() {
-      super(60, 60);
-    }
-    draw(context) {
-      context.fillRect(10, 10, 40, 40);
-    }
-  },
-  
-  V_Line: class extends this.CanvasComponent {
-    constructor() {
-      super(0, 60); // (*)
-    }
-    draw(context) {
-      context.beginPath();
-      context.moveTo(0, 0);
-      context.lineTo(0, 60); // (*)
-      context.stroke();
-    }
-  },
-  
-  H_Line: class extends this.CanvasComponent {
-    constructor() {
-      super(180, 0); // (*)
-    }
-    draw(context) {
-      context.beginPath();
-      context.moveTo(0, 0);
-      context.lineTo(180, 0); // (*) Hard-coded dimensions for simplicity for now.
-      context.stroke();
-    }
+      } else if (event.y < component.height) {
+        event.x -= this.width;
+        component.handle(event);
+      }
+    };
+    return result;
+  }
+  flipped() {
+    let result = new CanvasComponent(this.height, this.width);
+    result.draw = context => {
+      context.save();
+      context.transform(0, 1, 1, 0, 0, 0);
+      this.draw(context);
+      context.restore();
+    };
+    result.handle = event => {
+      [event.x, event.y] = [event.y, event.x];
+      this.handle(event);
+    };
+    return result;
+  }
+  above(component) {
+    return this.flipped().beside(component.flipped()).flipped();
   }
 }
+  
+CanvasComponent.Cell = class extends CanvasComponent {
+  constructor() {
+    super(60, 60);
+  }
+  draw(context) {
+    context.fillRect(10, 10, 40, 40);
+  }
+};
+  
+CanvasComponent.V_Line = class extends CanvasComponent {
+  constructor() {
+    super(0, 60); // (*)
+  }
+  draw(context) {
+    context.beginPath();
+    context.moveTo(0, 0);
+    context.lineTo(0, 60); // (*)
+    context.stroke();
+  }
+};
+  
+CanvasComponent.H_Line = class extends CanvasComponent {
+  constructor() {
+    super(180, 0); // (*)
+  }
+  draw(context) {
+    context.beginPath();
+    context.moveTo(0, 0);
+    context.lineTo(180, 0); // (*) Hard-coded dimensions for simplicity for now.
+    context.stroke();
+  }
+};
 
 class CanvasView extends View {
   constructor(id) {
@@ -207,7 +203,7 @@ class CanvasView extends View {
     this.canvas.height = 480; // (*)
     this.canvas.width = 480; // (*)
     this.c = this.canvas.getContext('2d');
-    (new CV.Cell()).draw(this.c);
+    (new CanvasComponent.Cell()).draw(this.c);
     //this.drawBoard([[' ', ' ', ' '], [' ', ' ', ' '], [' ', ' ', ' ']], 0, 0, 480, 480);
   }
   /*drawCell(contents, x, y, dimension) {}
