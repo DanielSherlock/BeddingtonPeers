@@ -262,7 +262,6 @@ class CanvasView extends View {
         }).coords;
         if (state[coords.y][coords.x] === ' ') {
           resolve(`${coords.y},${coords.x}`);
-          console.log('Testing that code after the resolve runs');
           return true;
         }
       });
