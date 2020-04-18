@@ -124,7 +124,7 @@ class CanvasComponent {
     this.readArgs = readArgs;
   }
   draw(context, ...args) {}
-  handle(event) {}
+  identify(coords) {}
   beside(component) {
     // Note: for now this is a very simple algorithm.
     // Eventually I will add a 'stretch' coefficient to components that will take away all the hard-coding.
@@ -137,12 +137,14 @@ class CanvasComponent {
       component.draw(context, ...args);
       context.restore();
     };
-    result.handle = event => {
-      if (event.x < this.width && event.y < this.height) {
-        this.handle(event);
-      } else if (event.y < component.height) {
-        event.x -= this.width;
-        component.handle(event);
+    result.identify = coords => {
+      if (coords.x < this.width && coords.y < this.height) {
+        return this.identify(coords);
+      } else if (coords.y < component.height) {
+        coords.x -= this.width;
+        return component.identify(coords);
+      } else {
+        return null;
       }
     };
     return result;
@@ -155,9 +157,9 @@ class CanvasComponent {
       this.draw(context, ...args);
       context.restore();
     };
-    result.handle = event => {
-      [event.x, event.y] = [event.y, event.x];
-      this.handle(event);
+    result.identify = coords => {
+      [coords.x, coords.y] = [coords.y, coords.x];
+      this.identify(coords);
     };
     return result;
   }
@@ -183,10 +185,8 @@ CanvasComponent.Cell = class extends CanvasComponent {
         break
     }
   }
-  handle(event) {
-    if (event.name === 'click') {
-      console.log(`Click at ${this.coords}`);
-    }
+  identify(coords) {
+    return {type: 'cell', coords: this.coords};
   }
 };
   
@@ -242,11 +242,10 @@ class CanvasView extends View {
     this.context = this.canvas.getContext('2d');
     
     this.canvas.addEventListener('click', event => {
-      this.board.handle({
-        name: 'click',
+      console.log(this.board.identify({
         x: event.clientX - this.canvas.getBoundingClientRect().left,
         y: event.clientY - this.canvas.getBoundingClientRect().top
-      });
+      }));
     });
     
     let testboard = [['O', 'X', 'O'],
