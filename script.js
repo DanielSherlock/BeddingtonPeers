@@ -202,14 +202,26 @@ CanvasComponent.H_Line = class extends CanvasComponent {
 class CanvasView extends View {
   constructor(id) {
     super();
+    
+    let template = [[' ', ' ', ' '],
+                    [' ', ' ', ' '],
+                    [' ', ' ', ' ']];
+    this.board = new CanvasComponent(0, 0);
+    for (let rowKey of template.keys()) { // Surely this is screaming out for a fold
+      let row = new CanvasComponent(0, 0);
+      for (let colKey of template[rowKey].keys()) { // Javascript has a fold, right?
+        row = row.beside(new CanvasComponent.Cell())
+      }
+      this.board = this.board.above(row);
+    }
+    
     this.canvas = document.getElementById(id);
-    this.canvas.height = 480; // (*)
-    this.canvas.width = 480; // (*)
+    this.canvas.height = this.board.height; // (*)
+    this.canvas.width = this.board.width; // (*)
     this.c = this.canvas.getContext('2d');
-    (new CanvasComponent.Cell()).beside(new CanvasComponent.V_Line()).draw(this.c, 'blue');
-    //this.drawBoard([[' ', ' ', ' '], [' ', ' ', ' '], [' ', ' ', ' ']], 0, 0, 480, 480);
+    this.board.draw()
   }
-  /*drawCell(contents, x, y, dimension) {}
+  /*
   drawBoard(grid, x, y, width, height) {
     let cellHeight = grid.length;
     let cellWidth = grid[0].length;
