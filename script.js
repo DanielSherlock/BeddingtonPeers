@@ -249,24 +249,26 @@ class CanvasView extends View {
       };
       this.canvas.addEventListener(eventName, handler);
     };
-    
-    this.canvas.onEvent('click', event => {
-      let cell = this.board.identify({
-        x: event.clientX - this.canvas.getBoundingClientRect().left,
-        y: event.clientY - this.canvas.getBoundingClientRect().top
-      });
-      console.log(cell.coords);
-      if (cell.coords.x === 0) {
-        return true;
-      }
-    });
-    
-    let testboard = [['O', 'X', 'O'],
-                     [' ', 'X', ' '],
-                     ['X', ' ', ' ']];
-    this.board.draw(this.context, testboard);
   }
-  takeTurn(player, state) {}
+  
+  takeTurn(player, state) {
+    return Promise(resolve => {
+      this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      this.board.draw(this.context, state);
+      this.canvas.onEvent('click', event => {
+        let coords = this.board.identify({
+          x: event.clientX - this.canvas.getBoundingClientRect().left,
+          y: event.clientY - this.canvas.getBoundingClientRect().top
+        }).coords;
+        if (state[coords.y][coords.x] === ' ') {
+          resolve(`${coords.y},${coords.x}`);
+          console.log('Testing that code after the resolve runs');
+          return true;
+        }
+      });
+    };
+  }
+  
   declareResult(result) {}
 }
 
