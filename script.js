@@ -266,7 +266,7 @@ class CanvasView extends View {
           return true;
         }
       });
-    };
+    });
   }
   
   declareResult(result) {}
