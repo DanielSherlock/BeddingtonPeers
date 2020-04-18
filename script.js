@@ -122,8 +122,8 @@ const CV = {
   
   CanvasComponent: class CC {
     constructor(width, height) {
-      width;
-      height;
+      this.width = width;
+      this.height = height;
     }
     draw(context) {}
     handle(event) {}
@@ -133,7 +133,7 @@ const CV = {
       result.draw = context => {
         context.save();
         this.draw(context);
-        context.translateX(this.width);
+        context.translate(this.width, 0);
         component.draw(context);
         context.restore();
       };
