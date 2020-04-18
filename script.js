@@ -166,7 +166,7 @@ const CV = {
     }
   },
   
-  Cell: class extends this.CanvasComponent {
+  Cell: class extends CV.CanvasComponent {
     constructor() {
       super(60, 60);
     }
