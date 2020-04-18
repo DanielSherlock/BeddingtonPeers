@@ -251,12 +251,12 @@ class CanvasView extends View {
     };
     
     this.canvas.onEvent('click', event => {
-      let coords = this.board.identify({
+      let cell = this.board.identify({
         x: event.clientX - this.canvas.getBoundingClientRect().left,
         y: event.clientY - this.canvas.getBoundingClientRect().top
       });
-      console.log(String(coords));
-      if (coords.x === 0) {
+      console.log(cell.coords);
+      if (cell.coords.x === 0) {
         return true;
       }
     });
