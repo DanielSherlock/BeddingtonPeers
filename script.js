@@ -219,7 +219,7 @@ class CanvasView extends View {
     this.canvas.height = this.board.height; // (*)
     this.canvas.width = this.board.width; // (*)
     this.c = this.canvas.getContext('2d');
-    this.board.draw()
+    this.board.draw(this.c)
   }
   /*
   drawBoard(grid, x, y, width, height) {
