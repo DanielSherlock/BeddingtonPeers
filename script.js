@@ -51,18 +51,27 @@ class View {
 // ----------
 
 class Rule {
-  read(step) {
-    
+  constructor () {
+    this.partialStates = new Set();
   }
   register(...partialStates) {
-    
-  }
-  then(rule) {
-    let result = new Rule();
-    result.read = step => {
-      rule.read(step);
-      rule.register(this.read(step));
+    for (let ps of partialStates) {
+      this.partialStates.add(ps);
     }
+  }
+  read(step) { }
+  then(rule) {
+    return {
+      ...new Rule(),
+      register: (...partialStates) => {
+        this.register(partialStates);
+      },
+      read: step => {
+        let out = rule.read(step);
+        rule.register(this.read(step));
+        return out;
+      }
+    };
   }
 }
 
