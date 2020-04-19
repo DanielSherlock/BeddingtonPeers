@@ -54,6 +54,9 @@ class Rule {
   read(step) {
     
   }
+  register(...partialStates) {
+    
+  }
   then(rule) {
     let result = new Rule();
     result.read = step => {
