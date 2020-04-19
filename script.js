@@ -50,6 +50,23 @@ class View {
 // Game Code:
 // ----------
 
+class Rule {
+  read(step) {
+    
+  }
+  then(rule) {
+    let result = new Rule();
+    result.read = step => {
+      rule.read(step);
+      rule.register(this.read(step));
+    }
+  }
+}
+
+Rule.AnyCell = class extends Rule {
+  
+};
+
 class NoughtsAndCrosses extends Game {
   constructor() {
     super();
