@@ -8,16 +8,13 @@ import {
 } from '../canvas-component.js';
 
 export class CanvasView extends View {
-  constructor(id) {
+  constructor(canvas, {players, board}) {
     super();
     
-    let template = [[' ', ' ', ' '],
-                    [' ', ' ', ' '],
-                    [' ', ' ', ' ']];
     this.board = new CanvasComponent(0, 0);
-    for (let y of template.keys()) {
+    for (let y of board.keys()) {
       let row = new CanvasComponent(0, 0);
-      for (let x of template[y].keys()) {
+      for (let x of board[y].keys()) {
         if (x > 0) {
           row = row.beside(new V_Line());
         }
@@ -29,7 +26,7 @@ export class CanvasView extends View {
       this.board = this.board.above(row);
     }
     
-    this.canvas = document.getElementById(id);
+    this.canvas = canvas;
     this.canvas.height = this.board.height;
     this.canvas.width = this.board.width;
     this.context = this.canvas.getContext('2d');

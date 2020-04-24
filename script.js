@@ -43,7 +43,9 @@ function switchFromTo(from, to) {
 }
 
 function startLocalGame() {
-  localController(new NoughtsAndCrosses('game-canvas'));
+  localController(new NoughtsAndCrosses(
+    document.getElementById('game-canvas')
+  ));
   switchFromTo('local-menu', 'game');
 }
 

@@ -7,10 +7,13 @@ import {NoughtsAndCrossesRules} from './rules.js';
 
 export class NoughtsAndCrosses extends ViewStateRules {
   constructor(id) {
-    super(
-      new AutoInactivePlayer(new CanvasView(id)),
-      new NoughtsAndCrossesState(),
-      new NoughtsAndCrossesRules()
-    )
+    let state = new NoughtsAndCrossesState();
+    let view = new AutoInactivePlayer(
+      new CanvasView(id, state)
+    );
+    // For the moment not passing state to rules.
+    let rules = new NoughtsAndCrossesRules();
+    
+    super(view , state, rules);
   }
 }
