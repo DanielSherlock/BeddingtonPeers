@@ -1,19 +1,9 @@
 import {localController} from './controllers.js';
 import {ViewStateRules} from './game.js';
-import {ViewWrapper} from './view.js';
+import {CanvasView} from './view.js';
 import {NoughtsAndCrossesState} from './state.js';
 import {InvalidMoveError,
         NoughtsAndCrossesRules} from './rules.js';
-
-class View {
-  constructor() {}
-  takeTurn(player, state) {
-    // Given a player and a state, returns that player's choice of move.
-  }
-  declareResult(result) {
-    // Given a result, displays it.
-  }
-}
 
 // Game Code:
 // ----------
@@ -47,163 +37,6 @@ Rule.AnyCell = class extends Rule {
   
 };
 
-// View Code:
-// ----------
-
-class CanvasComponent {
-  constructor(width, height, readArgs) {
-    this.width = width;
-    this.height = height;
-    this.readArgs = readArgs;
-  }
-  draw(context, ...args) {}
-  identify(coords) {}
-  beside(component) {
-    // Note: for now this is a very simple algorithm.
-    // Eventually I will add a 'stretch' coefficient to components that will take away all the hard-coding.
-    let result = new CanvasComponent(this.width + component.width,
-                                     Math.max(this.height, component.height));
-    result.draw = (context, ...args) => {
-      context.save();
-      this.draw(context, ...args);
-      context.translate(this.width, 0);
-      component.draw(context, ...args);
-      context.restore();
-    };
-    result.identify = coords => {
-      if (coords.x < this.width && coords.y < this.height) {
-        return this.identify(coords);
-      } else if (coords.y < component.height) {
-        coords.x -= this.width;
-        return component.identify(coords);
-      } else {
-        return null;
-      }
-    };
-    return result;
-  }
-  flipped() {
-    let result = new CanvasComponent(this.height, this.width);
-    result.draw = (context, ...args) => {
-      context.save();
-      context.transform(0, 1, 1, 0, 0, 0);
-      this.draw(context, ...args);
-      context.restore();
-    };
-    result.identify = coords => {
-      [coords.x, coords.y] = [coords.y, coords.x];
-      return this.identify(coords);
-    };
-    return result;
-  }
-  above(component) {
-    return this.flipped().beside(component.flipped()).flipped();
-  }
-}
-  
-CanvasComponent.Cell = class extends CanvasComponent {
-  constructor(coords) {
-    super(60, 60);
-    this.coords = coords;
-  }
-  draw(context, board) {
-    switch (board[this.coords.y][this.coords.x]) {
-      case 'X':
-        context.fillRect(10, 10, 40, 40);
-        break;
-      case 'O':
-        context.beginPath();
-        context.arc(30, 30, 20, 0, Math.PI * 2, true);
-        context.fill();
-        break
-    }
-  }
-  identify(coords) {
-    return {type: 'cell', coords: this.coords};
-  }
-};
-  
-CanvasComponent.V_Line = class extends CanvasComponent {
-  constructor() {
-    super(0, 60); // (*)
-  }
-  draw(context, ...args) {
-    context.beginPath();
-    context.moveTo(0, 0);
-    context.lineTo(0, 60); // (*)
-    context.stroke();
-  }
-};
-  
-CanvasComponent.H_Line = class extends CanvasComponent {
-  constructor() {
-    super(180, 0); // (*)
-  }
-  draw(context, ...args) {
-    context.beginPath();
-    context.moveTo(0, 0);
-    context.lineTo(180, 0); // (*) Hard-coded dimensions for simplicity for now.
-    context.stroke();
-  }
-};
-
-class CanvasView extends View {
-  constructor(id) {
-    super();
-    
-    let template = [[' ', ' ', ' '],
-                    [' ', ' ', ' '],
-                    [' ', ' ', ' ']];
-    this.board = new CanvasComponent(0, 0);
-    for (let y of template.keys()) {
-      let row = new CanvasComponent(0, 0);
-      for (let x of template[y].keys()) {
-        if (x > 0) {
-          row = row.beside(new CanvasComponent.V_Line());
-        }
-        row = row.beside(new CanvasComponent.Cell({x, y}));
-      }
-      if (y > 0) {
-        this.board = this.board.above(new CanvasComponent.H_Line());
-      }
-      this.board = this.board.above(row);
-    }
-    
-    this.canvas = document.getElementById(id);
-    this.canvas.height = this.board.height;
-    this.canvas.width = this.board.width;
-    this.context = this.canvas.getContext('2d');
-    
-    this.canvas.onEvent = (eventName, func) => {
-      let handler = event => {
-        if (func(event)) {
-          this.canvas.removeEventListener(eventName, handler);
-        }
-      };
-      this.canvas.addEventListener(eventName, handler);
-    };
-  }
-  
-  takeTurn(player, state) {
-    return new Promise(resolve => {
-      this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-      this.board.draw(this.context, state);
-      this.canvas.onEvent('click', event => {
-        let coords = this.board.identify({
-          x: event.clientX - this.canvas.getBoundingClientRect().left,
-          y: event.clientY - this.canvas.getBoundingClientRect().top
-        }).coords;
-        if (state[coords.y][coords.x] === ' ') {
-          resolve(`${coords.y},${coords.x}`);
-          return true;
-        }
-      });
-    });
-  }
-  
-  declareResult(result) {}
-}
-
 // Menu Functions:
 // ---------------
 
@@ -214,7 +47,7 @@ function switchFromTo(from, to) {
 
 function startLocalGame() {
   let game = new ViewStateRules(
-    new ViewWrapper(new CanvasView('game-canvas')),
+    new CanvasView('game-canvas'),
     new NoughtsAndCrossesState(),
     new NoughtsAndCrossesRules()
   )
