@@ -17,18 +17,26 @@ export class PromptView extends View {
   }
 }
 
-export class ViewWrapper extends View {
-  constructor(oldView) {
+export class AutoInactivePlayer extends View {
+  constructor(view) {
     super();
-    this.view = oldView;
+    this.view = view;
   }
   
   async inputTurn(state, player) {
-    return this.view.takeTurn(player, state.board);
+    if (player.active) {
+      return this.view.inputTurn(state, player);
+    } else {
+      return Promise.resolve(null);
+    }
+  }
+  
+  show(state) {
+    this.view.show(state);
   }
   
   declareResult(state, result) {
-    this.view.declareResult(result);
+    this.view.declareResult(state, result);
   }
 }
 
@@ -76,25 +84,19 @@ export class CanvasView extends View {
   }
   
   inputTurn({players, board}, player) {
-    if (player.active) {
-      return new Promise(resolve => {
-        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.board.draw(this.context, board);
-        this.canvas.onEvent('click', event => {
-          let coords = this.board.identify({
-            x: event.clientX - this.canvas.getBoundingClientRect().left,
-            y: event.clientY - this.canvas.getBoundingClientRect().top
-          }).coords;
-          if (board[coords.y][coords.x] === ' ') {
-            resolve(`${coords.y},${coords.x}`);
-            return true;
-          }
-        });
+    return new Promise(resolve => {
+      this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      this.board.draw(this.context, board);
+      this.canvas.onEvent('click', event => {
+        let coords = this.board.identify({
+          x: event.clientX - this.canvas.getBoundingClientRect().left,
+          y: event.clientY - this.canvas.getBoundingClientRect().top
+        }).coords;
+        if (board[coords.y][coords.x] === ' ') {
+          resolve(`${coords.y},${coords.x}`);
+          return true;
+        }
       });
-    } else {
-      return Promise.resolve(null);
-    }
+    });
   }
-  
-  declareResult(state, result) {}
 }

@@ -1,6 +1,7 @@
 import {localController} from './controllers.js';
 import {ViewStateRules} from './game.js';
-import {CanvasView} from './view.js';
+import {AutoInactivePlayer,
+        CanvasView} from './view.js';
 import {NoughtsAndCrossesState} from './state.js';
 import {InvalidMoveError,
         NoughtsAndCrossesRules} from './rules.js';
@@ -47,7 +48,7 @@ function switchFromTo(from, to) {
 
 function startLocalGame() {
   let game = new ViewStateRules(
-    new CanvasView('game-canvas'),
+    new AutoInactivePlayer(new CanvasView('game-canvas')),
     new NoughtsAndCrossesState(),
     new NoughtsAndCrossesRules()
   )
