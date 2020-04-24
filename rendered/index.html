@@ -1,0 +1,101 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Beddington Stones</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="shortcut icon" type="image/x-icon"
+          href="../favicon.ico">
+  </head>
+  <body class="px-3 my-5 markdown-body"
+        style="max-width: 50rem;
+               margin-left: auto;
+               margin-right: auto">
+    <h1>Beddington Stones</h1>
+    <section>
+      <h2 id="warning">Warning</h2>
+<p><em>Sorry, I can’t be bothered not to code in production, so there isn’t anything useful here yet.</em></p>
+
+<h2 id="play">Play</h2>
+
+<div id="local-menu">
+
+  <p>Play a local game (your opponent shares your computer):</p>
+
+  <p><button type="button" id="local-start-button">Start</button></p>
+
+</div>
+
+<!-- All the "Play" stuff after this (not including the game itself) are PeerJS non-working code. Kindly ignore. -->
+
+<div id="nickname" style="display: none;">
+
+  <p>Enter a nickname to get started:</p>
+
+  <p><input type="text" id="nickname-text" />
+<button type="button" id="nickname-button">Go</button></p>
+
+</div>
+
+<div id="lobby-mainmenu" style="display: none;">
+
+  <p>Start a new game, or join a game a friend has started:</p>
+
+  <p><button type="button" id="start-button">Start</button>
+<button type="button" id="join-button">Join</button></p>
+
+</div>
+
+<div id="lobby-start" style="display: none;">
+
+  <p>Please give your opponent this code: <code id="player-code">... establishing connection ...</code></p>
+
+  <p>The game will start as soon as they are ready.</p>
+
+</div>
+
+<div id="lobby-join" style="display: none;">
+
+  <p>Enter the code your opponent has given you:</p>
+
+  <p><input type="text" id="player-code-text" />
+<button type="button" id="player-code-button">Go</button></p>
+
+</div>
+
+<div id="game" style="display: none;">
+
+<canvas id="game-canvas"></canvas>
+
+</div>
+
+<h2 id="about">About</h2>
+
+<h3 id="what-even-is-beddington-stones">What even is “Beddington Stones”?</h3>
+
+<p>Great question,
+it’s a two-player abstract board game.
+Its fun,
+but there’s long been widespread disagreement as to its name.
+This page continues that grand tradition
+(while trying to avoid picking a side)
+by using an entirely new name for it.
+Sorry.</p>
+
+<h3 id="where-can-i-find-the-rules-for-it">Where can I find the rules for it?</h3>
+
+<p>Indeed.</p>
+
+<h3 id="who-am-i">Who am I?</h3>
+
+<p>My name is Daniel.</p>
+
+<script src="https://unpkg.com/peerjs@1.0.0/dist/peerjs.min.js"></script>
+
+<script src="../script.js"></script>
+
+
+    </section>
+  </body>
+</html>
