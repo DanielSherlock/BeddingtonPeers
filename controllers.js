@@ -1,3 +1,5 @@
+import {InvalidMoveError} from './rules.js';
+
 // Uses a game object as defined in game.js
 export async function localController(game) {
   while (!game.over) {
