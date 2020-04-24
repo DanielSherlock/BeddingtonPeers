@@ -83,4 +83,4 @@ Indeed.
 My name is Daniel.
 
 <script src="https://unpkg.com/peerjs@1.0.0/dist/peerjs.min.js"></script>
-<script src="{{ page.script | relative_url }}"></script>
+<script type="module" src="{{ page.script | relative_url }}"></script>
